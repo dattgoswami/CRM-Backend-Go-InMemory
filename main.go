@@ -160,6 +160,10 @@ func convertStringToUint(paramId string) uint32 {
 	return uint32(paramIdUint)
 }
 
+func index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/index.html")
+}
+
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/customers", getCustomers).Methods("GET")
@@ -167,7 +171,7 @@ func main() {
 	router.HandleFunc("/customers", addCustomer).Methods("POST")
 	router.HandleFunc("/customers/{id}", updateCustomer).Methods("PATCH")
 	router.HandleFunc("/customers/{id}", deleteCustomer).Methods("DELETE")
-
+	router.HandleFunc("/", index)
 	fmt.Println("Server is starting on port 3000...")
 	http.ListenAndServe(":3000", router)
 }
